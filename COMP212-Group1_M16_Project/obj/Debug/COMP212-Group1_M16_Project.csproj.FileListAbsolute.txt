@@ -1,2 +1,10 @@
 D:\MEGA\VS2015\Projects\COMP212\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.exe.config
 D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.exe.config
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.exe
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.pdb
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.csprojResolveAssemblyReference.cache
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212_Group1_M16_Project.Form1.resources
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212_Group1_M16_Project.Properties.Resources.resources
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.csproj.GenerateResource.Cache
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.exe
+D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.pdb
