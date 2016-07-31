@@ -15,8 +15,35 @@ namespace COMP212_Group1_M16_Project
         public Form1()
         {
             InitializeComponent();
-            //baljinder's comment
-            //baljinder's comment 2
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void encryptBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void decryptBtn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
 
         }
     }
