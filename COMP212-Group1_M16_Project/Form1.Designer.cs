@@ -57,9 +57,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(716, 150);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(336, 137);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
@@ -68,7 +68,7 @@
             // compressionRatioTextBox
             // 
             this.compressionRatioTextBox.Location = new System.Drawing.Point(195, 91);
-            this.compressionRatioTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.compressionRatioTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.compressionRatioTextBox.Name = "compressionRatioTextBox";
             this.compressionRatioTextBox.Size = new System.Drawing.Size(132, 23);
             this.compressionRatioTextBox.TabIndex = 5;
@@ -86,7 +86,7 @@
             // sizeClearTextBox
             // 
             this.sizeClearTextBox.Location = new System.Drawing.Point(195, 58);
-            this.sizeClearTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.sizeClearTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.sizeClearTextBox.Name = "sizeClearTextBox";
             this.sizeClearTextBox.Size = new System.Drawing.Size(132, 23);
             this.sizeClearTextBox.TabIndex = 3;
@@ -104,7 +104,7 @@
             // sizeCipheredTextBox
             // 
             this.sizeCipheredTextBox.Location = new System.Drawing.Point(195, 23);
-            this.sizeCipheredTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.sizeCipheredTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.sizeCipheredTextBox.Name = "sizeCipheredTextBox";
             this.sizeCipheredTextBox.Size = new System.Drawing.Size(132, 23);
             this.sizeCipheredTextBox.TabIndex = 1;
@@ -123,7 +123,7 @@
             // 
             this.browseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.browseBtn.Location = new System.Drawing.Point(604, 11);
-            this.browseBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.browseBtn.Margin = new System.Windows.Forms.Padding(4);
             this.browseBtn.Name = "browseBtn";
             this.browseBtn.Size = new System.Drawing.Size(100, 28);
             this.browseBtn.TabIndex = 3;
@@ -145,7 +145,7 @@
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(303, 11);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(292, 22);
             this.textBox4.TabIndex = 5;
@@ -154,7 +154,7 @@
             // 
             this.encryptBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.encryptBtn.Location = new System.Drawing.Point(712, 11);
-            this.encryptBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.encryptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.encryptBtn.Name = "encryptBtn";
             this.encryptBtn.Size = new System.Drawing.Size(100, 28);
             this.encryptBtn.TabIndex = 6;
@@ -166,7 +166,7 @@
             // 
             this.decryptBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.decryptBtn.Location = new System.Drawing.Point(820, 11);
-            this.decryptBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.decryptBtn.Margin = new System.Windows.Forms.Padding(4);
             this.decryptBtn.Name = "decryptBtn";
             this.decryptBtn.Size = new System.Drawing.Size(100, 28);
             this.decryptBtn.TabIndex = 7;
@@ -178,7 +178,7 @@
             // 
             this.exitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exitBtn.Location = new System.Drawing.Point(928, 11);
-            this.exitBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
             this.exitBtn.Name = "exitBtn";
             this.exitBtn.Size = new System.Drawing.Size(100, 28);
             this.exitBtn.TabIndex = 8;
@@ -188,9 +188,11 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(19, 64);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(685, 431);
             this.dataGridView1.TabIndex = 9;
@@ -209,7 +211,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.browseBtn);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Compression Application";
             this.Load += new System.EventHandler(this.Form1_Load);

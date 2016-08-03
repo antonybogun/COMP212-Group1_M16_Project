@@ -11,3 +11,9 @@ D:\Sem2\C#\Assignments\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj
 E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.exe.config
 E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.exe
 E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.pdb
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.exe
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\bin\Debug\COMP212-Group1_M16_Project.pdb
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.csprojResolveAssemblyReference.cache
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212_Group1_M16_Project.Form1.resources
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212_Group1_M16_Project.Properties.Resources.resources
+E:\2016_CEN_SUMMER\COMP212-002\NewRepo\COMP212-Group1_M16_Project\COMP212-Group1_M16_Project\obj\Debug\COMP212-Group1_M16_Project.csproj.GenerateResource.Cache
