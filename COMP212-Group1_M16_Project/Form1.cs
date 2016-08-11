@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -21,55 +18,11 @@ namespace COMP212_Group1_M16_Project
 {
     public partial class Form1 : Form
     {
-        // Include DataGridView column names
-        List<string> columnName = new List<string>();
-        // Include all tables
-        List<DataTable> tableList = new List<DataTable>();
-        // Include all dictionaries
-        List<Dictionary<string, object>> dicList = new List<Dictionary<string, object>>();
-        // Each table's primary key
-        readonly string TABLE_PK = "No";
+        Dictionary<string, string> huffman_CodeDic = new Dictionary<string, string>();
 
         public Form1()
         {
             InitializeComponent();
-
-            // Add DataGridView column names
-            columnName.Add("Letter");
-            columnName.Add("ASCII");
-            columnName.Add("Occurence");
-            columnName.Add("Frequency");
-            columnName.Add("Ordered_Frequency");
-            columnName.Add("Huffman_Code");
-
-            /*************** CREATE A DICTIONARY AND REQUEST A TABLE BY THE DICTIONARY *************/
-            // Create Letter Dictionary for 1st column 
-            publishLetterDic(0);
-            // Create a table for 1st column 
-            requestTableByDic(0);
-            // Create ASCII Dictionary for 2nd column 
-            publishAsciiDic(1);
-            // Create a table for 2nd column 
-            requestTableByDic(1);
-
-        
-            
-            /*************** AFTER ALL DICTIONARIES AND TABLES CREATE ******************************/
-            // Merge all tables generated above (GUYS IT IS OKAY TO IGNORE DETAIL ABOUT MergeTables Method)
-            DataTable mergedTable = MergeTables(tableList, "No");
-            dataGridView1.DataSource = mergedTable;
-            dataGridView1.Columns[0].Visible = false;
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -79,24 +32,88 @@ namespace COMP212_Group1_M16_Project
 
         private void encryptBtn_Click(object sender, EventArgs e)
         {
+            double sizeCipheredText = 0, sizeClearText = 0;
+            using (StreamReader r = new StreamReader(txtPath.Text))
+            {
+                using (StreamWriter outputFile = new StreamWriter("Huffman_ciphered.txt"))
+                {
+                    char c;
+                    while (r.Peek() != -1)
+                    {
+                        c = Char.ToUpper((char)r.Read());
 
+                        if (c == ' ' || c == ',' || c == '.' || c == ':')
+                        {
+                            outputFile.Write(huffman_CodeDic["Space"]);
+                            sizeCipheredText += huffman_CodeDic["Space"].Length;
+                            sizeClearText++;
+                        }
+                        else if (c >= 'A' && c <= 'Z')
+                        {
+                            outputFile.Write(huffman_CodeDic[c.ToString()]);
+                            sizeCipheredText += huffman_CodeDic[c.ToString()].Length;
+                            sizeClearText++;
+                        }
+                        else if (c == '\n')
+                        {
+                            outputFile.WriteLine();
+                        }
+                    }
+                }
+            }
+            sizeClearText *= 8;
+            Console.WriteLine("Total2: " + sizeClearText);
+            sizeCipheredTextBox.Text = Math.Round(sizeCipheredText, 0).ToString("#,#");
+            sizeClearTextBox.Text = Math.Round(sizeClearText, 0).ToString("#,#");
+            compressionRatioTextBox.Text = Math.Round((100 - (100 * (sizeCipheredText / sizeClearText))), 2).ToString() + " %";
+            Process.Start("notepad.exe", "Huffman_ciphered.txt");
         }
 
         private void decryptBtn_Click(object sender, EventArgs e)
         {
+            using (StreamReader r = new StreamReader("Huffman_ciphered.txt"))
+            {
+                String s;
+                int i;
+                using (StreamWriter outputFile = new StreamWriter("Huffman_decoded.txt"))
+                {
+                    while (r.Peek() != -1)
+                    {
+                        s = r.ReadLine();
+                        i = 0;
+                        while (true)
+                        {
+                            if (s.Length == i)
+                            {
+                                outputFile.WriteLine();
+                                break;
+                            }
+
+                            foreach (var a in huffman_CodeDic)
+                            {
+                                if (s.IndexOf(a.Value, i) == i)
+                                {
+                                    outputFile.Write(a.Key == "Space" ? " " : a.Key);
+                                    i += a.Value.Length;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Process.Start("notepad.exe", "Huffman_decoded.txt");
 
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
         {
-
+            Application.Exit();
         }
 
         // Open file dialog and read char by char
         private void openFileDialog()
         {
-
-            StreamReader reader;
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Title = "Open Text File";
             openFileDialog1.Filter = "TXT files|*.txt";
@@ -106,14 +123,8 @@ namespace COMP212_Group1_M16_Project
             {
                 try
                 {
-                    using (reader = new StreamReader(openFileDialog1.FileName))
-                    {
-                        while (reader.Peek() >= 0)
-                        {
-                            // Read char by char
-                            Console.Write((char)reader.Read());
-                        }
-                    }
+                    txtPath.Text = openFileDialog1.FileName;
+                    publishOccurenceDic(2);
                 }
                 catch (Exception ex)
                 {
@@ -121,125 +132,81 @@ namespace COMP212_Group1_M16_Project
                 }
             }
         }
-        // Create letter dictionary - 1st column
-        private void publishLetterDic(int idx)
-        {
-            Dictionary<string, object> letterDic = new Dictionary<string, object>();
-            letterDic.Add("space", "space");
-            for (var letter = 'A'; letter <= 'Z'; letter++)
-            {
-                Console.WriteLine(letter);
-                letterDic.Add(letter.ToString(), letter);
-            }
 
-            // Add letter dictioinary into dictionary list
-            dicList.Insert(idx, letterDic);
-
-        }
-        // Create letter dictionary - 2nd column
-        private void publishAsciiDic(int idx)
-        {
-            var str = " abcdefghijklmnopqrstuvwxyz";
-            Dictionary<string, object> asciiDic = new Dictionary<string, object>();
-            foreach (char b in str.ToCharArray())
-                asciiDic.Add((int)b == 32 ? "space" : b.ToString(), (int)b);
-
-            //alphaASCII.ToList().ForEach(x => Console.WriteLine(x.Key));
-            //alphaASCII.ToList().ForEach(x => Console.WriteLine(x.Value));
-
-            // Add ASCII dictioinary into dictionary list
-            dicList.Insert(idx, asciiDic);
-        }
-        
-        // Create Occurence dictionary - 3rd column
         private void publishOccurenceDic(int idx)
         {
-            Dictionary<string, object> occurenceDic = new Dictionary<string, object>();
-            dicList.Insert(idx, occurenceDic);
-        }
-        // Create Frequency dictionary - 4th column
-        private void publishFrequencyDic(int idx)
-        {
-            Dictionary<string, object> frequencyDic = new Dictionary<string, object>();
-            dicList.Insert(idx, frequencyDic);
-        }
-        // Create Ordered Frequency dictionary - 5th column 
-        private void publishOrFrequencyDic(int idx)
-        {
-            Dictionary<string, object> oFrequencyDic = new Dictionary<string, object>();
-            dicList.Insert(idx, oFrequencyDic);
-        }
-        // Create Ordered Huffman_Code dictionary - 6th column 
-        private void publishHufmanCodeDic(int idx)
-        {
-            Dictionary<string, object> hufmanCodeDic = new Dictionary<string, object>();
-            dicList.Insert(idx, hufmanCodeDic);
-        }
-
-        // Create DataTable with data of a dictionary 
-        private void requestTableByDic(int idx)
-        {
-            // Create a table each a dictionary
-            DataTable table = new DataTable();
-            
-            // 1st column in a table - primary key and invisible
-            table.Columns.Add(TABLE_PK);
-            // 2nd column in a table - predefined one of column names
-            table.Columns.Add(columnName[idx]);
-
-            // Iterate to get data from a dictionary and put it to a table
-            var cnt = 1;
-            foreach (var pair in dicList[idx])
-            {
-                //Console.WriteLine("{0}, {1}", pair.Key, pair.Value);
-                table.Rows.Add(cnt, pair.Value);
-                cnt++;
-            }
-
-            // Add a table into table list
-            tableList.Insert(idx, table);
-        }
-
-        // Merge all tables and return a final table
-        public static DataTable MergeTables(IList<DataTable> tables, String primaryKeyColumn)
-        {
-            if (tables.Count == 1)
-                return tables[0];
-
-            DataTable table = new DataTable("FinalTable");
-            table.BeginLoadData();
-            foreach (DataTable t in tables)
-            {
-                table.Merge(t);
-            }
-            table.EndLoadData();
-
-            if (primaryKeyColumn != null)
-            {
-
-                var pkGroups = table.AsEnumerable()
-                    .GroupBy(r => r[primaryKeyColumn]);
-                var dupGroups = pkGroups.Where(g => g.Count() > 1);
-                foreach (var grpDup in dupGroups)
+            if (txtPath.Text != "")
+                using (StreamReader r = new StreamReader(txtPath.Text))
                 {
-                    // Use first row and modify it
-                    DataRow firstRow = grpDup.First();
-                    foreach (DataColumn c in table.Columns)
+                    char c;
+                    ulong totalOccurence = 0;
+                    string[] huffArray = new string[] { "100", "0010", "0011", "1111","1110",
+                        "1100", "1011", "1010", "0110", "0101", "11011", "01111", "01001", "01000", "00011",
+                        "00010", "00001", "00000", "110101", "011101", "011100", "1101001", "110100011",
+                        "110100001","110100000", "1101000101","11010001000" };
+
+                    Dictionary<string, uint> asciiDic = new Dictionary<string, uint>();
+                    Dictionary<string, ulong> occurenceDic = new Dictionary<string, ulong>();
+                    Dictionary<string, double> frequencyDic = new Dictionary<string, double>();
+                    Dictionary<string, double> ordered_FrequencyDic = new Dictionary<string, double>();
+                    
+                    //ASCII Dictionary
+                    asciiDic.Add("Space", Convert.ToUInt32(' '));
+                    for (c = 'A'; c <= 'Z'; c++)
                     {
-                        if (firstRow.IsNull(c))
+                        asciiDic.Add(c.ToString(), Convert.ToUInt32(Char.ToLower(c)));
+                    }
+
+                    //Occurence Dictionary
+                    occurenceDic.Add("Space", (ulong)0);
+                    for (c = 'A'; c <= 'Z'; c++)
+                        occurenceDic.Add(c.ToString(), (ulong)0);
+
+                    while (r.Peek() != -1)
+                    {
+                        c = Char.ToUpper((char)r.Read());
+                        if (c == ' ' || c == ',' || c == '.' || c == ':')
                         {
-                            DataRow firstNotNullRow = grpDup.Skip(1).FirstOrDefault(r => !r.IsNull(c));
-                            if (firstNotNullRow != null)
-                                firstRow[c] = firstNotNullRow[c];
+                            occurenceDic["Space"] = (ulong)occurenceDic["Space"] + 1;
+                            totalOccurence++;
+                        }
+                        else if (c >= 'A' && c <= 'Z')
+                        {
+                            occurenceDic[c.ToString()] = (ulong)occurenceDic[c.ToString()] + 1;
+                            totalOccurence++;
                         }
                     }
-                    // Remove all but first row
-                    var rowsToRemove = grpDup.Skip(1);
-                    foreach (DataRow rowToRemove in rowsToRemove)
-                        table.Rows.Remove(rowToRemove);
+
+                    //Frequency Dictionary
+                    frequencyDic.Add("Space", (double)Math.Round((Convert.ToDouble(occurenceDic["Space"]) / totalOccurence), 6));
+                    for (c = 'A'; c <= 'Z'; c++)
+                        frequencyDic.Add(c.ToString(), (double)Math.Round((Convert.ToDouble(occurenceDic[c.ToString()]) / totalOccurence), 6));
+                    
+                    //Ordered_frequency Dictionary
+                    var a = from entry in frequencyDic orderby entry.Value descending select entry;
+                    foreach (var b in a)
+                    {
+                        ordered_FrequencyDic.Add(b.Key, b.Value);
+                    }
+
+                    //Huffman_code Dictionary
+                    int i = 0;
+                    foreach (var entry in ordered_FrequencyDic)
+                        huffman_CodeDic.Add(entry.Key, huffArray[i++]);
+
+                    //DataTable source for gridView
+                    DataTable table = new DataTable();
+                    table.Columns.Add("Letter", typeof(string));
+                    table.Columns.Add("ASCII", asciiDic["A"].GetType());
+                    table.Columns.Add("Occurence", occurenceDic["A"].GetType());
+                    table.Columns.Add("Frequency", frequencyDic["A"].GetType());
+                    table.Columns.Add("Huffman_Code", huffman_CodeDic["A"].GetType());
+                    foreach (var e in huffman_CodeDic)
+                        table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key], occurenceDic[e.Key], frequencyDic[e.Key], e.Value, });
+                    dataGridView1.DataSource = table;
+                    dataGridView1.RowHeadersVisible = false;
+                    dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
                 }
-            }
-            return table;
         }
     }
 }

@@ -37,7 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.browseBtn = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtPath = new System.Windows.Forms.TextBox();
             this.encryptBtn = new System.Windows.Forms.Button();
             this.decryptBtn = new System.Windows.Forms.Button();
             this.exitBtn = new System.Windows.Forms.Button();
@@ -48,7 +48,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.groupBox1.Controls.Add(this.compressionRatioTextBox);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.sizeClearTextBox);
@@ -56,76 +55,67 @@
             this.groupBox1.Controls.Add(this.sizeCipheredTextBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(716, 150);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(422, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(336, 137);
+            this.groupBox1.Size = new System.Drawing.Size(252, 111);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Compression Ratio";
             // 
             // compressionRatioTextBox
             // 
-            this.compressionRatioTextBox.Location = new System.Drawing.Point(195, 91);
-            this.compressionRatioTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.compressionRatioTextBox.Location = new System.Drawing.Point(146, 74);
             this.compressionRatioTextBox.Name = "compressionRatioTextBox";
-            this.compressionRatioTextBox.Size = new System.Drawing.Size(132, 23);
+            this.compressionRatioTextBox.Size = new System.Drawing.Size(100, 20);
             this.compressionRatioTextBox.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 91);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(17, 74);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 17);
+            this.label3.Size = new System.Drawing.Size(116, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Compression Ratio:";
             // 
             // sizeClearTextBox
             // 
-            this.sizeClearTextBox.Location = new System.Drawing.Point(195, 58);
-            this.sizeClearTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.sizeClearTextBox.Location = new System.Drawing.Point(146, 47);
             this.sizeClearTextBox.Name = "sizeClearTextBox";
-            this.sizeClearTextBox.Size = new System.Drawing.Size(132, 23);
+            this.sizeClearTextBox.Size = new System.Drawing.Size(100, 20);
             this.sizeClearTextBox.TabIndex = 3;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 58);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(17, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(123, 17);
+            this.label2.Size = new System.Drawing.Size(97, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Size Clear Text:";
             // 
             // sizeCipheredTextBox
             // 
-            this.sizeCipheredTextBox.Location = new System.Drawing.Point(195, 23);
-            this.sizeCipheredTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.sizeCipheredTextBox.Location = new System.Drawing.Point(146, 19);
             this.sizeCipheredTextBox.Name = "sizeCipheredTextBox";
-            this.sizeCipheredTextBox.Size = new System.Drawing.Size(132, 23);
+            this.sizeCipheredTextBox.Size = new System.Drawing.Size(100, 20);
             this.sizeCipheredTextBox.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 23);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(17, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(150, 17);
+            this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Size Ciphered Text:";
             // 
             // browseBtn
             // 
             this.browseBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.browseBtn.Location = new System.Drawing.Point(604, 11);
-            this.browseBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.browseBtn.Location = new System.Drawing.Point(453, 9);
             this.browseBtn.Name = "browseBtn";
-            this.browseBtn.Size = new System.Drawing.Size(100, 28);
+            this.browseBtn.Size = new System.Drawing.Size(75, 23);
             this.browseBtn.TabIndex = 3;
             this.browseBtn.Text = "Browse";
             this.browseBtn.UseVisualStyleBackColor = true;
@@ -135,28 +125,25 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(16, 11);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(12, 14);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(264, 17);
+            this.label4.Size = new System.Drawing.Size(209, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Select the file you woud like to run:";
             // 
-            // textBox4
+            // txtPath
             // 
-            this.textBox4.Location = new System.Drawing.Point(303, 11);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(292, 22);
-            this.textBox4.TabIndex = 5;
+            this.txtPath.Location = new System.Drawing.Point(227, 11);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(220, 20);
+            this.txtPath.TabIndex = 5;
             // 
             // encryptBtn
             // 
             this.encryptBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.encryptBtn.Location = new System.Drawing.Point(712, 11);
-            this.encryptBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.encryptBtn.Location = new System.Drawing.Point(534, 9);
             this.encryptBtn.Name = "encryptBtn";
-            this.encryptBtn.Size = new System.Drawing.Size(100, 28);
+            this.encryptBtn.Size = new System.Drawing.Size(75, 23);
             this.encryptBtn.TabIndex = 6;
             this.encryptBtn.Text = "Encrypt";
             this.encryptBtn.UseVisualStyleBackColor = true;
@@ -165,10 +152,9 @@
             // decryptBtn
             // 
             this.decryptBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.decryptBtn.Location = new System.Drawing.Point(820, 11);
-            this.decryptBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.decryptBtn.Location = new System.Drawing.Point(615, 9);
             this.decryptBtn.Name = "decryptBtn";
-            this.decryptBtn.Size = new System.Drawing.Size(100, 28);
+            this.decryptBtn.Size = new System.Drawing.Size(75, 23);
             this.decryptBtn.TabIndex = 7;
             this.decryptBtn.Text = "Decrypt";
             this.decryptBtn.UseVisualStyleBackColor = true;
@@ -177,10 +163,9 @@
             // exitBtn
             // 
             this.exitBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exitBtn.Location = new System.Drawing.Point(928, 11);
-            this.exitBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.exitBtn.Location = new System.Drawing.Point(696, 9);
             this.exitBtn.Name = "exitBtn";
-            this.exitBtn.Size = new System.Drawing.Size(100, 28);
+            this.exitBtn.Size = new System.Drawing.Size(75, 23);
             this.exitBtn.TabIndex = 8;
             this.exitBtn.Text = "Exit";
             this.exitBtn.UseVisualStyleBackColor = true;
@@ -189,32 +174,35 @@
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(19, 64);
+            this.dataGridView1.Location = new System.Drawing.Point(11, 52);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(685, 431);
+            this.dataGridView1.Size = new System.Drawing.Size(406, 363);
             this.dataGridView1.TabIndex = 9;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ClientSize = new System.Drawing.Size(1109, 524);
+            this.ClientSize = new System.Drawing.Size(778, 426);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.decryptBtn);
             this.Controls.Add(this.encryptBtn);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtPath);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.browseBtn);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Compression Application";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -233,7 +221,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button browseBtn;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.Button encryptBtn;
         private System.Windows.Forms.Button decryptBtn;
         private System.Windows.Forms.Button exitBtn;
