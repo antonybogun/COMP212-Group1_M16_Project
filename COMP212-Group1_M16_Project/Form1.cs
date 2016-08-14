@@ -19,10 +19,35 @@ namespace COMP212_Group1_M16_Project
     public partial class Form1 : Form
     {
         Dictionary<string, string> huffman_CodeDic = new Dictionary<string, string>();
+        Dictionary<string, uint> asciiDic = new Dictionary<string, uint>();
+        Dictionary<string, ulong> occurenceDic = new Dictionary<string, ulong>();
+        Dictionary<string, double> frequencyDic = new Dictionary<string, double>();
+        Dictionary<string, double> ordered_FrequencyDic = new Dictionary<string, double>();
 
         public Form1()
         {
             InitializeComponent();
+
+
+            //ASCII Dictionary
+            asciiDic.Add("Space", Convert.ToUInt32(' '));
+            for (char c = 'A'; c <= 'Z'; c++)
+            {
+                asciiDic.Add(c.ToString(), Convert.ToUInt32(Char.ToLower(c)));
+            }
+
+            DataTable table = new DataTable();
+            table.Columns.Add("Letter", typeof(string));
+            table.Columns.Add("ASCII", (asciiDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Occurence", (occurenceDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Frequency", (frequencyDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Huffman_Code", (huffman_CodeDic.GetType().GetGenericArguments())[1]);
+            foreach (var e in asciiDic)
+                table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key]});
+            dataGridView1.DataSource = table;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -42,7 +67,7 @@ namespace COMP212_Group1_M16_Project
                     {
                         c = Char.ToUpper((char)r.Read());
 
-                        if (c == ' ' || c == ',' || c == '.' || c == ':')
+                        if (c == ' ' || c == ',' || c == ';' || c == ':')
                         {
                             outputFile.Write(huffman_CodeDic["Space"]);
                             sizeCipheredText += huffman_CodeDic["Space"].Length;
@@ -145,17 +170,9 @@ namespace COMP212_Group1_M16_Project
                         "00010", "00001", "00000", "110101", "011101", "011100", "1101001", "110100011",
                         "110100001","110100000", "1101000101","11010001000" };
 
-                    Dictionary<string, uint> asciiDic = new Dictionary<string, uint>();
-                    Dictionary<string, ulong> occurenceDic = new Dictionary<string, ulong>();
-                    Dictionary<string, double> frequencyDic = new Dictionary<string, double>();
-                    Dictionary<string, double> ordered_FrequencyDic = new Dictionary<string, double>();
                     
-                    //ASCII Dictionary
-                    asciiDic.Add("Space", Convert.ToUInt32(' '));
-                    for (c = 'A'; c <= 'Z'; c++)
-                    {
-                        asciiDic.Add(c.ToString(), Convert.ToUInt32(Char.ToLower(c)));
-                    }
+                    
+                    
 
                     //Occurence Dictionary
                     occurenceDic.Add("Space", (ulong)0);
@@ -165,7 +182,7 @@ namespace COMP212_Group1_M16_Project
                     while (r.Peek() != -1)
                     {
                         c = Char.ToUpper((char)r.Read());
-                        if (c == ' ' || c == ',' || c == '.' || c == ':')
+                        if (c == ' ' || c == ',' || c == ';' || c == ':')
                         {
                             occurenceDic["Space"] = (ulong)occurenceDic["Space"] + 1;
                             totalOccurence++;
@@ -197,10 +214,10 @@ namespace COMP212_Group1_M16_Project
                     //DataTable source for gridView
                     DataTable table = new DataTable();
                     table.Columns.Add("Letter", typeof(string));
-                    table.Columns.Add("ASCII", asciiDic["A"].GetType());
-                    table.Columns.Add("Occurence", occurenceDic["A"].GetType());
-                    table.Columns.Add("Frequency", frequencyDic["A"].GetType());
-                    table.Columns.Add("Huffman_Code", huffman_CodeDic["A"].GetType());
+                    table.Columns.Add("ASCII", (asciiDic.GetType().GetGenericArguments())[1]);
+                    table.Columns.Add("Occurence", (occurenceDic.GetType().GetGenericArguments())[1]);
+                    table.Columns.Add("Frequency", (frequencyDic.GetType().GetGenericArguments())[1]);
+                    table.Columns.Add("Huffman_Code", (huffman_CodeDic.GetType().GetGenericArguments())[1]);
                     foreach (var e in huffman_CodeDic)
                         table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key], occurenceDic[e.Key], frequencyDic[e.Key], e.Value, });
                     dataGridView1.DataSource = table;
