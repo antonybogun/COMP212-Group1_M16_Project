@@ -61,7 +61,7 @@ namespace COMP212_Group1_M16_Project
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error happens while opening and processing the file: " + ex.Message);
+                    MessageBox.Show("Error happened while opening and processing the file: " + ex.Message);
                 }
             }
         }
@@ -125,7 +125,7 @@ namespace COMP212_Group1_M16_Project
                     dataGridView.RowHeadersVisible = false;
                     dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 
-                    MessageBox.Show("File is processed succesfully. Now you can encrypt it");
+                    MessageBox.Show("File is processed successfully. Now you can encrypt it");
                     encryptBtn.Enabled = true;
                 }
         }
@@ -191,9 +191,9 @@ namespace COMP212_Group1_M16_Project
                 sizeClearTextBox.Text = sizeClearText.ToString("#,#");
                 compressionRatioTextBox.Text = Math.Round((double)(100 - (100 * ((double)sizeCipheredText / sizeClearText))), 2).ToString() + " %";
 
-                MessageBox.Show("File is encrypted succesfully. Now you can decrypt it");
+                MessageBox.Show("File is encrypted successfully. Now you can decrypt it");
                 decryptBtn.Enabled = true;
-                Process.Start("notepad.exe", "Huffman_ciphered.txt");
+                Process.Start("notepad.exe", workingDir+"Huffman_ciphered.txt");
             }
             catch (Exception ex)
             {
@@ -242,11 +242,11 @@ namespace COMP212_Group1_M16_Project
                     }
                 }
                 MessageBox.Show("File is decrypted succesfully!");
-                Process.Start("notepad.exe", "Huffman_decoded.txt");
+                Process.Start("notepad.exe", workingDir+"Huffman_decoded.txt");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error happens while decrypting the file: " + ex.Message);
+                MessageBox.Show("Error happened while decrypting the file: " + ex.Message);
             }        
         }
         private void btnBrowse_Click(object sender, EventArgs e)
