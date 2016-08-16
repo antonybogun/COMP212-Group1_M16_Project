@@ -10,11 +10,11 @@ namespace COMP212_Group1_M16_Project
 {
     public partial class AppForm : Form
     {
-        Dictionary<string, string> huffman_CodeDic = new Dictionary<string, string>();
         Dictionary<string, string> asciiDic = new Dictionary<string, string>();
         Dictionary<string, ulong> occurenceDic = new Dictionary<string, ulong>();
         Dictionary<string, double> frequencyDic = new Dictionary<string, double>();
         Dictionary<string, double> ordered_FrequencyDic = new Dictionary<string, double>();
+        Dictionary<string, string> huffman_CodeDic = new Dictionary<string, string>();
 
         string workingDir;
 
@@ -55,6 +55,8 @@ namespace COMP212_Group1_M16_Project
             {
                 try
                 {
+                    sizeCipheredTextBox.Text = sizeClearTextBox.Text = compressionRatioTextBox.Text = "";
+                    decryptBtn.Enabled = false;
                     txtPath.Text = openFileDialogWindow.FileName;
                     workingDir = openFileDialogWindow.FileName.Substring(0, openFileDialogWindow.FileName.LastIndexOf('\\')) + '\\';
                     publishDictionaries();
@@ -69,6 +71,16 @@ namespace COMP212_Group1_M16_Project
         //Generating and publishing all the dictionaries
         private void publishDictionaries()
         {
+            // Clearing dictionaries for file processing
+            if (occurenceDic.Count != 0)
+                occurenceDic.Clear();
+            if (frequencyDic.Count != 0)
+                frequencyDic.Clear();
+            if (ordered_FrequencyDic.Count != 0)
+                ordered_FrequencyDic.Clear();
+            if (huffman_CodeDic.Count != 0)
+                huffman_CodeDic.Clear();
+
             if (txtPath.Text != "")
                 using (StreamReader r = new StreamReader(txtPath.Text))
                 {
