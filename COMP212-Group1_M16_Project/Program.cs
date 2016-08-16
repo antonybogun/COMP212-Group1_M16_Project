@@ -16,7 +16,7 @@ namespace COMP212_Group1_M16_Project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new AppForm());
         }
     }
 }

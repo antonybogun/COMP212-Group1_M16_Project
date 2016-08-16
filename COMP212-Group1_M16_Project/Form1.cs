@@ -6,159 +6,68 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-
-// There are some methods to support individually create a dictionary and show it up
-// The way to show your dictionary up in DataGridView
-// 1. Create your own dictionary e.g. publishLetterDic() and add it into 'dicList'
-// 2. Call method requestTableByDic(idx) - idx means the order of column name, and please follow the order
-// By Jacob 2016/08/03
-
-
 namespace COMP212_Group1_M16_Project
 {
-    public partial class Form1 : Form
+    public partial class AppForm : Form
     {
         Dictionary<string, string> huffman_CodeDic = new Dictionary<string, string>();
-        Dictionary<string, uint> asciiDic = new Dictionary<string, uint>();
+        Dictionary<string, string> asciiDic = new Dictionary<string, string>();
         Dictionary<string, ulong> occurenceDic = new Dictionary<string, ulong>();
         Dictionary<string, double> frequencyDic = new Dictionary<string, double>();
         Dictionary<string, double> ordered_FrequencyDic = new Dictionary<string, double>();
 
-        public Form1()
+        string workingDir;
+
+        public AppForm()
         {
+            // Form Constructor
             InitializeComponent();
-
-
-            //ASCII Dictionary
-            asciiDic.Add("Space", Convert.ToUInt32(' '));
+            encryptBtn.Enabled = false;
+            decryptBtn.Enabled = false;
+            txtPath.ReadOnly = true;
+            // Creation ASCII Dictionary
+            asciiDic.Add("Space", Convert.ToString(Convert.ToUInt32(' '), 2).PadLeft(8, '0') + " [" + Convert.ToUInt32(' ') + "]");
             for (char c = 'A'; c <= 'Z'; c++)
-            {
-                asciiDic.Add(c.ToString(), Convert.ToUInt32(Char.ToLower(c)));
-            }
+                asciiDic.Add(c.ToString(),  Convert.ToString(Convert.ToUInt32(Char.ToLower(c)),2).PadLeft(8,'0') + " [" + Convert.ToUInt32(Char.ToLower(c)) + "]");
 
-            DataTable table = new DataTable();
-            table.Columns.Add("Letter", typeof(string));
-            table.Columns.Add("ASCII", (asciiDic.GetType().GetGenericArguments())[1]);
-            table.Columns.Add("Occurence", (occurenceDic.GetType().GetGenericArguments())[1]);
-            table.Columns.Add("Frequency", (frequencyDic.GetType().GetGenericArguments())[1]);
-            table.Columns.Add("Huffman_Code", (huffman_CodeDic.GetType().GetGenericArguments())[1]);
+            // Creation table as a source of dataGridView
+            DataTable table = createTable();
+
+            // Populating table with the ASCII Dictionary
             foreach (var e in asciiDic)
-                table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key]});
-            dataGridView1.DataSource = table;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+                table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key] });
 
+            // Binding dataGridView to table and configuring appearance
+            dataGridView.DataSource = table;
+            dataGridView.RowHeadersVisible = false;
+            dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            openFileDialog();
-        }
-
-        private void encryptBtn_Click(object sender, EventArgs e)
-        {
-            double sizeCipheredText = 0, sizeClearText = 0;
-            using (StreamReader r = new StreamReader(txtPath.Text))
-            {
-                using (StreamWriter outputFile = new StreamWriter("Huffman_ciphered.txt"))
-                {
-                    char c;
-                    while (r.Peek() != -1)
-                    {
-                        c = Char.ToUpper((char)r.Read());
-
-                        if (c == ' ' || c == ',' || c == ';' || c == ':')
-                        {
-                            outputFile.Write(huffman_CodeDic["Space"]);
-                            sizeCipheredText += huffman_CodeDic["Space"].Length;
-                            sizeClearText++;
-                        }
-                        else if (c >= 'A' && c <= 'Z')
-                        {
-                            outputFile.Write(huffman_CodeDic[c.ToString()]);
-                            sizeCipheredText += huffman_CodeDic[c.ToString()].Length;
-                            sizeClearText++;
-                        }
-                        else if (c == '\n')
-                        {
-                            outputFile.WriteLine();
-                        }
-                    }
-                }
-            }
-            sizeClearText *= 8;
-            Console.WriteLine("Total2: " + sizeClearText);
-            sizeCipheredTextBox.Text = Math.Round(sizeCipheredText, 0).ToString("#,#");
-            sizeClearTextBox.Text = Math.Round(sizeClearText, 0).ToString("#,#");
-            compressionRatioTextBox.Text = Math.Round((100 - (100 * (sizeCipheredText / sizeClearText))), 2).ToString() + " %";
-            Process.Start("notepad.exe", "Huffman_ciphered.txt");
-        }
-
-        private void decryptBtn_Click(object sender, EventArgs e)
-        {
-            using (StreamReader r = new StreamReader("Huffman_ciphered.txt"))
-            {
-                String s;
-                int i;
-                using (StreamWriter outputFile = new StreamWriter("Huffman_decoded.txt"))
-                {
-                    while (r.Peek() != -1)
-                    {
-                        s = r.ReadLine();
-                        i = 0;
-                        while (true)
-                        {
-                            if (s.Length == i)
-                            {
-                                outputFile.WriteLine();
-                                break;
-                            }
-
-                            foreach (var a in huffman_CodeDic)
-                            {
-                                if (s.IndexOf(a.Value, i) == i)
-                                {
-                                    outputFile.Write(a.Key == "Space" ? " " : a.Key);
-                                    i += a.Value.Length;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            Process.Start("notepad.exe", "Huffman_decoded.txt");
-
-        }
-
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        // Open file dialog and read char by char
+        // Opening a file dialog and saving working directory
         private void openFileDialog()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Title = "Open Text File";
-            openFileDialog1.Filter = "TXT files|*.txt";
-            openFileDialog1.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            OpenFileDialog openFileDialogWindow = new OpenFileDialog();
+            openFileDialogWindow.Title = "Open Text File";
+            openFileDialogWindow.Filter = "TXT files|*.txt";
+            openFileDialogWindow.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialogWindow.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    txtPath.Text = openFileDialog1.FileName;
-                    publishOccurenceDic(2);
+                    txtPath.Text = openFileDialogWindow.FileName;
+                    workingDir = openFileDialogWindow.FileName.Substring(0, openFileDialogWindow.FileName.LastIndexOf('\\')) + '\\';
+                    publishDictionaries();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error happens while opening the file: " + ex.Message);
+                    MessageBox.Show("Error happens while opening and processing the file: " + ex.Message);
                 }
             }
         }
 
-        private void publishOccurenceDic(int idx)
+        //Generating and publishing all the dictionaries
+        private void publishDictionaries()
         {
             if (txtPath.Text != "")
                 using (StreamReader r = new StreamReader(txtPath.Text))
@@ -170,60 +79,184 @@ namespace COMP212_Group1_M16_Project
                         "00010", "00001", "00000", "110101", "011101", "011100", "1101001", "110100011",
                         "110100001","110100000", "1101000101","11010001000" };
 
-                    
-                    
-                    
-
-                    //Occurence Dictionary
-                    occurenceDic.Add("Space", (ulong)0);
+                    // Creation Occurence Dictionary
+                    occurenceDic.Add("Space", 0);
                     for (c = 'A'; c <= 'Z'; c++)
-                        occurenceDic.Add(c.ToString(), (ulong)0);
-
+                        occurenceDic.Add(c.ToString(), 0);
                     while (r.Peek() != -1)
                     {
                         c = Char.ToUpper((char)r.Read());
                         if (c == ' ' || c == ',' || c == ';' || c == ':')
                         {
-                            occurenceDic["Space"] = (ulong)occurenceDic["Space"] + 1;
+                            occurenceDic["Space"]++;
                             totalOccurence++;
                         }
                         else if (c >= 'A' && c <= 'Z')
                         {
-                            occurenceDic[c.ToString()] = (ulong)occurenceDic[c.ToString()] + 1;
+                            occurenceDic[c.ToString()]++;
                             totalOccurence++;
                         }
                     }
 
-                    //Frequency Dictionary
-                    frequencyDic.Add("Space", (double)Math.Round((Convert.ToDouble(occurenceDic["Space"]) / totalOccurence), 6));
+                    // Creation Frequency Dictionary
+                    frequencyDic.Add("Space", Math.Round((Convert.ToDouble(occurenceDic["Space"]) / totalOccurence), 6));
                     for (c = 'A'; c <= 'Z'; c++)
-                        frequencyDic.Add(c.ToString(), (double)Math.Round((Convert.ToDouble(occurenceDic[c.ToString()]) / totalOccurence), 6));
-                    
-                    //Ordered_frequency Dictionary
-                    var a = from entry in frequencyDic orderby entry.Value descending select entry;
-                    foreach (var b in a)
-                    {
-                        ordered_FrequencyDic.Add(b.Key, b.Value);
-                    }
+                        frequencyDic.Add(c.ToString(), Math.Round((Convert.ToDouble(occurenceDic[c.ToString()]) / totalOccurence), 6));
 
-                    //Huffman_code Dictionary
+                    //Creation Ordered_frequency Dictionary
+                    var sorted = from entry in frequencyDic orderby entry.Value descending select entry;
+                    foreach (var entry in sorted)
+                        ordered_FrequencyDic.Add(entry.Key, entry.Value);
+
+                    // Creation Huffman_code Dictionary
                     int i = 0;
                     foreach (var entry in ordered_FrequencyDic)
                         huffman_CodeDic.Add(entry.Key, huffArray[i++]);
 
-                    //DataTable source for gridView
-                    DataTable table = new DataTable();
-                    table.Columns.Add("Letter", typeof(string));
-                    table.Columns.Add("ASCII", (asciiDic.GetType().GetGenericArguments())[1]);
-                    table.Columns.Add("Occurence", (occurenceDic.GetType().GetGenericArguments())[1]);
-                    table.Columns.Add("Frequency", (frequencyDic.GetType().GetGenericArguments())[1]);
-                    table.Columns.Add("Huffman_Code", (huffman_CodeDic.GetType().GetGenericArguments())[1]);
+                    // Creation a table as a source of dataGridView;
+                    DataTable table = createTable();
+
+                    // Populating table with the ASCII Dictionary
                     foreach (var e in huffman_CodeDic)
-                        table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key], occurenceDic[e.Key], frequencyDic[e.Key], e.Value, });
-                    dataGridView1.DataSource = table;
-                    dataGridView1.RowHeadersVisible = false;
-                    dataGridView1.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+                        table.Rows.Add(new Object[] { e.Key, asciiDic[e.Key], occurenceDic[e.Key], frequencyDic[e.Key], e.Value });
+
+                    // Binding dataGridView to table and configuring appearance
+                    dataGridView.DataSource = table;
+                    dataGridView.RowHeadersVisible = false;
+                    dataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+
+                    MessageBox.Show("File is processed succesfully. Now you can encrypt it");
+                    encryptBtn.Enabled = true;
                 }
         }
+
+        // Utilities
+        private DataTable createTable()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Letter", typeof(string));
+            table.Columns.Add("ASCII", (asciiDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Occurence", (occurenceDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Frequency", (frequencyDic.GetType().GetGenericArguments())[1]);
+            table.Columns.Add("Huffman_Code", (huffman_CodeDic.GetType().GetGenericArguments())[1]);
+            return table;
+        }
+
+        // Event handlers
+        private void encryptBtn_Click(object sender, EventArgs e)
+        {
+            ulong sizeCipheredText = 0, sizeClearText = 0;
+
+            // Reading each letter from a source file and writing correspondence Huffman value to Huffman_ciphered.txt
+            try
+            {
+                using (StreamReader r = new StreamReader(txtPath.Text))
+                {
+                    using (StreamWriter outputFile = new StreamWriter(workingDir + "Huffman_ciphered.txt"))
+                    {
+                        char c;
+                        
+                        // Checking if there is a character in the file 
+                        while (r.Peek() != -1)
+                        {
+                            // Read a character from a source file and increment occurance if applicable
+                            c = Char.ToUpper((char)r.Read());
+                            if (c == ' ' || c == ',' || c == ';' || c == ':')
+                            {
+                                outputFile.Write(huffman_CodeDic["Space"]);
+                                // Increase a sizeCipheredText by the number of digits of correspondence Huffman code value (length of huffman_CodeDic value)
+                                sizeCipheredText += (ulong)huffman_CodeDic["Space"].Length;
+                                sizeClearText++;
+                            }
+                            else if (c >= 'A' && c <= 'Z')
+                            {
+                                outputFile.Write(huffman_CodeDic[c.ToString()]);
+                                sizeCipheredText += (ulong)huffman_CodeDic[c.ToString()].Length;
+                                sizeClearText++;
+                            }
+                            // If the character is the end of the line, put the end of the line in Huffman_ciphered.txt
+                            // For allignment purposes
+                            else if (c == '\n')
+                                outputFile.WriteLine();
+                        }
+                    }
+                }
+                
+                // Calculate compression ratio
+
+                //Size of text in bites (each character is 8 bites)
+                sizeClearText *= 8;
+
+                sizeCipheredTextBox.Text = sizeCipheredText.ToString("#,#");
+                sizeClearTextBox.Text = sizeClearText.ToString("#,#");
+                compressionRatioTextBox.Text = Math.Round((double)(100 - (100 * ((double)sizeCipheredText / sizeClearText))), 2).ToString() + " %";
+
+                MessageBox.Show("File is encrypted succesfully. Now you can decrypt it");
+                decryptBtn.Enabled = true;
+                Process.Start("notepad.exe", "Huffman_ciphered.txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error happens while encrypting the file: " + ex.Message);
+            }
+        }
+
+        private void decryptBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (StreamReader r = new StreamReader(workingDir+"Huffman_ciphered.txt"))
+                {
+                    using (StreamWriter outputFile = new StreamWriter(workingDir+"Huffman_decoded.txt"))
+                    {
+                        string s;
+                        int i;
+
+                        // Checking if there is a character in the file
+                        while (r.Peek() != -1)
+                        {
+                            // Read line from the Huffman_ciphered.txt file
+                            s = r.ReadLine();
+                            i = 0;
+                            while (true)
+                            {
+                                // If there is no more character in the line, finish processing it and end line in the Huffman_decoded.txt
+                                if (s.Length == i)
+                                {
+                                    outputFile.WriteLine();
+                                    break;
+                                }
+
+                                // Processing of which Huffman code value is in the current position of the string 
+                                foreach (var a in huffman_CodeDic)
+                                    if (s.IndexOf(a.Value, i) == i)
+                                    {
+                                        // Writing a correspondence character in Huffman_decoded.txt
+                                        outputFile.Write(a.Key == "Space" ? " " : a.Key);
+                                        // Moving index to next Huffman code value in the Huffman_ciphered.txt
+                                        i += a.Value.Length;
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+                MessageBox.Show("File is decrypted succesfully!");
+                Process.Start("notepad.exe", "Huffman_decoded.txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error happens while decrypting the file: " + ex.Message);
+            }        
+        }
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            openFileDialog();
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }       
     }
 }
